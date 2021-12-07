@@ -9,32 +9,33 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 import java.io.*;
-import java.util.List;
 
 
 public class ImageController {
     @FXML
-    ImageView imageView = new ImageView();//要在这里new，why？？
+    ImageView imageView = new ImageView();
 
     @FXML
-    private TextField height = new TextField();
+    private TextField heightTextField = new TextField();
 
     @FXML
-    private TextField width = new TextField();
-
-    @FXML TextField path = new TextField();
+    private TextField widthTextField = new TextField();
 
     @FXML
-    private ChoiceBox<String> Type = new ChoiceBox<>();
+    private TextField pathTextField = new TextField();
 
-    private String[] picType = {"JPG", "PNG", "JPEG", "BMP", "GIF"};
+    @FXML
+    private ChoiceBox<String> typeSelector = new ChoiceBox<>();
+
+    private String[] picTypes = {"JPG", "PNG", "JPEG", "BMP", "GIF"};
 
     FileChooser fc = new FileChooser();
+
     File tmp;
 
     @FXML
     public void choseFile(ActionEvent event) {
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type","*.jpg","*.png","*.gif", "*.bmp"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type", "*.jpg", "*.png", "*.jpeg", "*.gif", "*.bmp"));
         tmp = fc.showOpenDialog(null);
 
         if (tmp != null) {
@@ -42,40 +43,32 @@ public class ImageController {
             imageView.setImage(img);
             Double h = img.getHeight();
             Double w = img.getWidth();
-            height.setText(h.toString());
-            width.setText(w.toString());
-            path.setText(tmp.getPath());
-        }
-        if (Type.getItems().isEmpty()) {
-            pictureType();
-        }
-    }
+            heightTextField.setText(h.toString());
+            widthTextField.setText(w.toString());
+            pathTextField.setText(tmp.getPath());
 
-    public void choseMultipleFile(ActionEvent event) {
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type","*.jpg","*.png","*.jpeg"));
-        List<File> tmps = fc.showOpenMultipleDialog(null);
-
-        for (File tmp : tmps) {
-            if (tmp != null) {
-
+            // Show picture types only if there is a picture
+            if (typeSelector.getItems().isEmpty()) {
+                addPictureTypes();
             }
-        }
-        if (!Type.hasProperties()) {
-            pictureType();
+        } else {
+            // Do not show picture types if there is no picture
+            removePictureTypes();
         }
     }
 
     public void download(ActionEvent event) {
         FileChooser ofc = new FileChooser();
-        ofc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Tpye", "*." + Type.getValue().toLowerCase()));
         File output = ofc.showSaveDialog(null);
-        FormatConversion conversion = new FormatConversion();
-        conversion.Conversion(tmp, output, Type.getValue());
+        FormatConvertor convertor = new FormatConvertor();
+        convertor.convert(tmp, output, typeSelector.getValue());
     }
 
-    public void pictureType() {
-        for (String t : picType) {
-            Type.getItems().add(t);
-        }
+    public void addPictureTypes() {
+        typeSelector.getItems().addAll(picTypes);
+    }
+
+    public void removePictureTypes() {
+        typeSelector.getItems().removeAll();
     }
 }

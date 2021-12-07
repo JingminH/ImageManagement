@@ -6,14 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.*;
 
-public class FormatConversion {
-//    public static final String JPG = ".jpg";
-//    public static final String GIF = ".gif";
-//    public static final String PNG = ".png";
-//    public static final String BMP = ".bmp";
-
-
-    public void Conversion(File input, File output, String outputFormat){
+public class FormatConvertor {
+    public void convert(File input, File output, String outputFormat){
         try {
             BufferedImage bim = ImageIO.read(input);
             ImageIO.write(bim, outputFormat, output);
@@ -21,5 +15,4 @@ public class FormatConversion {
             e.printStackTrace();
         }
     }
-
 }
