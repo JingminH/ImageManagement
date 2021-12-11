@@ -10,16 +10,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../metadata-extractor-2.16.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="metadata-extractor-2.16.0" level="project" />
+    <orderEntry type="library" name="com.drewnoakes:metadata-extractor:2.16.0" level="project" />
+    <orderEntry type="library" name="Maven: com.drewnoakes:metadata-extractor:2.16.0" level="project" />
+    <orderEntry type="library" name="Maven: com.adobe.xmp:xmpcore:6.1.11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:mac:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:16" level="project" />

@@ -1,81 +1,127 @@
 package com.example.imagemanagement;
 
+import com.drew.metadata.exif.ExifIFD0Directory;
+import com.drew.metadata.exif.ExifSubIFDDescriptor;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Camera;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
-import java.io.*;
-import java.util.List;
+import java.io.File;
+import java.util.Date;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.*;
 
 public class ImageController {
     @FXML
-    ImageView imageView = new ImageView();//要在这里new，why？？
+    ImageView imageView = new ImageView();
 
     @FXML
-    private TextField height = new TextField();
+    private TextField heightTextField = new TextField();
 
     @FXML
-    private TextField width = new TextField();
-
-    @FXML TextField path = new TextField();
+    private TextField widthTextField = new TextField();
 
     @FXML
-    private ChoiceBox<String> Type = new ChoiceBox<>();
+    private TextField cameraTextField = new TextField();
 
-    private String[] picType = {"JPG", "PNG", "JPEG", "BMP", "GIF"};
+    @FXML
+    private TextField datetimeTextField = new TextField();
+
+    @FXML
+    public TextField exposureTextField = new TextField();
+
+    @FXML
+    public TextField fNumberTextField = new TextField();
+
+    @FXML
+    public TextField isoTextField = new TextField();;
+
+    @FXML
+    public TextField lensTextField = new TextField();;
+
+    @FXML
+    private TextField pathTextField = new TextField();
+
+    @FXML
+    private ChoiceBox<String> typeSelector = new ChoiceBox<>();
+
+    private String[] picTypes = {"JPG", "PNG", "JPEG", "BMP", "GIF"};
 
     FileChooser fc = new FileChooser();
+
     File tmp;
 
     @FXML
     public void choseFile(ActionEvent event) {
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type","*.jpg","*.png","*.gif", "*.bmp"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type", "*.jpg", "*.png", "*.jpeg", "*.gif", "*.bmp"));
         tmp = fc.showOpenDialog(null);
 
         if (tmp != null) {
+            try {
+                Metadata metadata = ImageMetadataReader.readMetadata(tmp);
+                for (Directory directory : metadata.getDirectories()) {
+                    for (Tag tag : directory.getTags()) {
+                        System.out.println(tag);
+                    }
+                }
+                // obtain the Exif directory
+                ExifIFD0Directory ifd0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+                // query the tag's value
+                String camera = ifd0Directory.getDescription(ExifSubIFDDirectory.TAG_MODEL);
+                cameraTextField.setText(camera);
+                String datetime = ifd0Directory.getDescription(ExifSubIFDDirectory.TAG_DATETIME);
+                datetimeTextField.setText(datetime);
+                // obtain the Exif subdirectory
+                ExifSubIFDDirectory subIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+                String exposure = subIFDDirectory.getDescription(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
+                exposureTextField.setText(exposure);
+                String fNumber = subIFDDirectory.getDescription(ExifSubIFDDirectory.TAG_FNUMBER);
+                fNumberTextField.setText(fNumber);
+                String iso = subIFDDirectory.getDescription(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
+                isoTextField.setText(iso);
+                String lens = subIFDDirectory.getDescription(ExifSubIFDDirectory.TAG_LENS_MODEL);
+                lensTextField.setText(lens);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             Image img = new Image(tmp.toURI().toString());
             imageView.setImage(img);
             Double h = img.getHeight();
             Double w = img.getWidth();
-            height.setText(h.toString());
-            width.setText(w.toString());
-            path.setText(tmp.getPath());
-        }
-        if (Type.getItems().isEmpty()) {
-            pictureType();
-        }
-    }
+            heightTextField.setText(h.toString());
+            widthTextField.setText(w.toString());
+            pathTextField.setText(tmp.getPath());
 
-    public void choseMultipleFile(ActionEvent event) {
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type","*.jpg","*.png","*.jpeg"));
-        List<File> tmps = fc.showOpenMultipleDialog(null);
-
-        for (File tmp : tmps) {
-            if (tmp != null) {
-
+            // Show picture types only if there is a picture
+            if (typeSelector.getItems().isEmpty()) {
+                addPictureTypes();
             }
-        }
-        if (!Type.hasProperties()) {
-            pictureType();
+        } else {
+            // Do not show picture types if there is no picture
+            removePictureTypes();
         }
     }
 
     public void download(ActionEvent event) {
         FileChooser ofc = new FileChooser();
-        ofc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Tpye", "*." + Type.getValue().toLowerCase()));
         File output = ofc.showSaveDialog(null);
-        FormatConversion conversion = new FormatConversion();
-        conversion.Conversion(tmp, output, Type.getValue());
+        FormatConvertor convertor = new FormatConvertor();
+        convertor.convert(tmp, output, typeSelector.getValue());
     }
 
-    public void pictureType() {
-        for (String t : picType) {
-            Type.getItems().add(t);
-        }
+    public void addPictureTypes() {
+        typeSelector.getItems().addAll(picTypes);
+    }
+
+    public void removePictureTypes() {
+        typeSelector.getItems().removeAll();
     }
 }

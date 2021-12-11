@@ -8,28 +8,39 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="352.0" prefWidth="559.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imagemanagement.ImageController">
-   <children>
-      <Button layoutX="62.0" layoutY="150.0" mnemonicParsing="false" onAction="#choseFile" text="chose file" />
-      <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="58.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
-      <ChoiceBox fx:id="Type" layoutX="31.0" layoutY="274.0" prefHeight="23.0" prefWidth="137.0" />
-      <TitledPane animated="false" layoutX="282.0" layoutY="29.0" prefHeight="163.0" prefWidth="227.0" text="Information">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="205.0" prefWidth="225.0">
-               <children>
-                  <Label layoutX="15.0" layoutY="14.0" prefHeight="15.0" prefWidth="51.0" text="Height" />
-                  <Label layoutX="15.0" layoutY="42.0" prefHeight="0.0" prefWidth="51.0" text="Width" />
-                  <Label layoutX="16.0" layoutY="73.0" prefHeight="15.0" prefWidth="58.0" text="Location" />
-                  <TextField fx:id="height" layoutX="87.0" layoutY="10.0" prefHeight="23.0" prefWidth="110.0" />
-                  <TextField fx:id="width" layoutX="87.0" layoutY="37.0" prefHeight="23.0" prefWidth="110.0" />
-                  <TextField layoutX="87.0" layoutY="69.0" prefHeight="23.0" prefWidth="110.0" />
-                  <Label layoutX="15.0" layoutY="106.0" prefHeight="17.0" prefWidth="60.0" text="Path" />
-                  <TextField fx:id="path" layoutX="87.0" layoutY="101.0" prefHeight="23.0" prefWidth="110.0" />
-               </children>
-            </AnchorPane>
-        </content>
-      </TitledPane>
-      <Button layoutX="342.0" layoutY="274.0" mnemonicParsing="false" onAction="#download" text="Download" />
-      <Label layoutX="34.0" layoutY="243.0" prefHeight="15.0" prefWidth="126.0" text="Chose Transfer Type" />
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.imagemanagement.ImageController">
+    <children>
+        <Button layoutX="78.0" layoutY="285.0" mnemonicParsing="false" onAction="#choseFile" prefHeight="26.0" prefWidth="137.0" text="chose file" />
+        <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="94.0" layoutY="153.0" pickOnBounds="true" />
+        <ChoiceBox fx:id="typeSelector" layoutX="77.0" layoutY="383.0" prefHeight="23.0" prefWidth="137.0" />
+        <TitledPane animated="false" layoutX="278.0" layoutY="66.0" prefHeight="370.0" prefWidth="550.0" text="Information">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="203.0" prefWidth="547.0">
+                    <children>
+                        <Label layoutX="35.0" layoutY="22.0" prefHeight="15.0" prefWidth="51.0" text="Height" />
+                        <Label layoutX="35.0" layoutY="57.0" prefHeight="0.0" prefWidth="51.0" text="Width" />
+                        <Label layoutX="35.0" layoutY="92.0" prefHeight="15.0" prefWidth="58.0" text="Camera" />
+                        <Label layoutX="35.0" layoutY="127.0" prefHeight="15.0" prefWidth="58.0" text="Date/Time" />
+                        <Label layoutX="35.0" layoutY="162.0" prefHeight="15.0" prefWidth="58.0" text="Exposure" />
+                        <Label layoutX="35.0" layoutY="197.0" prefHeight="15.0" prefWidth="58.0" text="F Number" />
+                        <Label layoutX="35.0" layoutY="232.0" prefHeight="15.0" prefWidth="58.0" text="ISO" />
+                        <Label layoutX="35.0" layoutY="267.0" prefHeight="15.0" prefWidth="58.0" text="Lens" />
+                        <Label layoutX="35.0" layoutY="302.0" prefHeight="17.0" prefWidth="60.0" text="Path" />
+
+                        <TextField fx:id="heightTextField" editable="false" layoutX="109.0" layoutY="18.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="widthTextField" editable="false" layoutX="109.0" layoutY="53.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="cameraTextField" editable="false" layoutX="109.0" layoutY="88.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="datetimeTextField" editable="false" layoutX="109.0" layoutY="123.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="exposureTextField" editable="false" layoutX="109.0" layoutY="158.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="fNumberTextField" editable="false" layoutX="109.0" layoutY="193.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="isoTextField" editable="false" layoutX="109.0" layoutY="228.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="lensTextField" editable="false" layoutX="109.0" layoutY="263.0" prefHeight="26.0" prefWidth="400.0" />
+                        <TextField fx:id="pathTextField" editable="false" layoutX="109.0" layoutY="298.0" prefHeight="26.0" prefWidth="400.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <Button layoutX="485.0" layoutY="454.0" mnemonicParsing="false" onAction="#download" prefHeight="26.0" prefWidth="137.0" text="Download" />
+        <Label layoutX="78.0" layoutY="352.0" prefHeight="17.0" prefWidth="137.0" text="Chose Transfer Type" />
+    </children>
 </AnchorPane>
