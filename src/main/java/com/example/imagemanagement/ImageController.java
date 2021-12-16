@@ -1,20 +1,15 @@
 package com.example.imagemanagement;
 
 import com.drew.metadata.exif.ExifIFD0Directory;
-import com.drew.metadata.exif.ExifSubIFDDescriptor;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Camera;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-
 import java.io.File;
-import java.util.Date;
-
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.*;
 
@@ -112,6 +107,7 @@ public class ImageController {
 
     public void download(ActionEvent event) {
         FileChooser ofc = new FileChooser();
+        ofc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type", "*." + typeSelector.getValue().toLowerCase()));
         File output = ofc.showSaveDialog(null);
         FormatConvertor convertor = new FormatConvertor();
         convertor.convert(tmp, output, typeSelector.getValue());
