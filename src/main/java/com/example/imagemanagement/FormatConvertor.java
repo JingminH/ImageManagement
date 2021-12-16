@@ -3,8 +3,9 @@ package com.example.imagemanagement;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.*;
+
+
 
 public class FormatConvertor {
     public void convert(File input, File output, String outputFormat){
