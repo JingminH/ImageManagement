@@ -4,6 +4,7 @@ import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -107,10 +108,20 @@ public class ImageController {
 
     public void download(ActionEvent event) {
         FileChooser ofc = new FileChooser();
-        ofc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type", "*." + typeSelector.getValue().toLowerCase()));
-        File output = ofc.showSaveDialog(null);
-        FormatConvertor convertor = new FormatConvertor();
-        convertor.convert(tmp, output, typeSelector.getValue());
+        if (tmp != null) {
+            ofc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Type", "*." + typeSelector.getValue().toLowerCase()));
+            File output = ofc.showSaveDialog(null);
+            FormatConvertor convertor = new FormatConvertor();
+            convertor.convert(tmp, output, typeSelector.getValue());
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error!");
+            alert.setHeaderText("No input error");
+            alert.setContentText("No input, please upload your image");
+            alert.initOwner(null);
+            alert.show();
+        }
     }
 
     public void addPictureTypes() {
